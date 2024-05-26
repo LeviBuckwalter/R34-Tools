@@ -1,2 +1,3 @@
-import /Users/macbookair / Desktop / my - first - repository / r34 tools / functions.js
-console.log("working??")
+import { processPosts } from "../r34 tools/functions.js"
+console.log("hello")
+processPosts()

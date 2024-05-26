@@ -1,6 +1,6 @@
-import { FetchConductor } from "./r34 tools/objects/FetchConductor.js"
+import { FetchConductor } from "../objects/FetchConductor.js"
 
-class Search {
+export class Search {
     constructor(prompt, pid, limit) {
         this.prompt = prompt
         this.pid = pid
