@@ -8,7 +8,7 @@ export class Search {
     }
 
     get url() {
-        //return `www.somethingsomething.com/search=${prompt}&pid=${pid}`
+        return `www.somethingsomething.com/search=${this.prompt}&pid=${this.pid}`
     }
 
     async fetch() {
