@@ -1,4 +1,4 @@
-import /Users/macbookair / Desktop / my - first - repository / r34 tools / objects / FetchConductor.js
+import { FetchConductor } from "./r34 tools/objects/FetchConductor.js"
 
 class Search {
     constructor(prompt, pid, limit) {
