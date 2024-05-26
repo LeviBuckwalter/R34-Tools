@@ -1,0 +1,20 @@
+import /Users/macbookair / Desktop / my - first - repository / r34 tools / objects / FetchConductor.js
+
+class Search {
+    constructor(prompt, pid, limit) {
+        this.prompt = prompt
+        this.pid = pid
+        this.limit = limit
+    }
+
+    get url() {
+        //return `www.somethingsomething.com/search=${prompt}&pid=${pid}`
+    }
+
+    async fetch() {
+        function myEgg() {
+            //return httpGet(this.url)
+        }
+        return await FetchConductor.ticket(myEgg)
+    }
+}
