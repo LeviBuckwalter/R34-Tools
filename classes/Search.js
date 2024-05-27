@@ -1,14 +1,15 @@
 import { FetchConductor } from "../objects/FetchConductor.js"
 
 export class Search {
-    constructor(prompt, pid, limit) {
+    constructor(prompt, pid, limit, json) {
         this.prompt = prompt
-        this.pid = pid
-        this.limit = limit
+        this.pid = (pid === undefined) ? 0 : pid
+        this.limit = (limit === undefined) ? 1000 : limit
+        this.json = (json === undefined) ? true : json
     }
 
     get url() {
-        return `www.somethingsomething.com/search=${this.prompt}&pid=${this.pid}`
+        return `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${this.prompt}&pid=${this.pid}&limit=${this.limit}&json=${(this.json === true) ? 1 : 0}`
     }
 
     async fetch() {
