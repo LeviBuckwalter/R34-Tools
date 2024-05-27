@@ -1,3 +1,5 @@
+import { removeFromArray } from "./general functions"
+
 export function processPosts(posts, keepIds) {
     //returns a new array
 

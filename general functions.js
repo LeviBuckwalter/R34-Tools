@@ -1,4 +1,4 @@
-function removeFromArray(array, isProblem) {
+export function removeFromArray(array, isProblem) {
     //mutates the given array
     //isProblem is a function which returns true or false depending on whether the item in the array should be removed
 
