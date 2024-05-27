@@ -2,7 +2,7 @@ import { FetchConductor } from "../objects/FetchConductor.js"
 
 export class Search {
     constructor(prompt, pid, limit, json) {
-        this.prompt = prompt
+        this.prompt = (prompt === undefined) ? "" : prompt
         this.pid = (pid === undefined) ? 0 : pid
         this.limit = (limit === undefined) ? 1000 : limit
         this.json = (json === undefined) ? true : json
