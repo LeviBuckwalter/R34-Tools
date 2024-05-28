@@ -1,4 +1,4 @@
-import { removeFromArray } from "./general functions"
+import { removeFromArray } from "./general functions.js"
 
 export function processPosts(posts, keepIds) {
     //returns a new array
@@ -7,7 +7,7 @@ export function processPosts(posts, keepIds) {
         keepIds = true
     }
     if (!Array.isArray(posts)) {
-        print("error: processPosts was passed something that was not an array")
+        console.log("error: processPosts was passed something that was not an array")
         return
     }
 
