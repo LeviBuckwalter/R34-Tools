@@ -25,7 +25,7 @@ export const FetchConductor = {
         sc.topLink = ret
         sc.length++
 
-        if (random() < 0.01) {
+        if (Math.random() < 0.01) {
             this.normalizeChains()
         }
 
