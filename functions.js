@@ -1,4 +1,6 @@
-import { removeFromArray } from "./general functions.js"
+import { removeFromArray } from "./utility.js"
+import { problemStrs } from "./global variables.js"
+
 
 export function processPosts(posts, keepIds) {
     //returns a new array
