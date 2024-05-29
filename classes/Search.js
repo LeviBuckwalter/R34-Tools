@@ -13,8 +13,10 @@ export class Search {
     }
 
     async fetch() {
-        function myEgg() {
-            //return httpGet(this.url)
+        const url = this.url
+        async function myEgg() {
+            const resp = await fetch(url)
+            return resp.json()
         }
         return await FetchConductor.ticket(myEgg)
     }
