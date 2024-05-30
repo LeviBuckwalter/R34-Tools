@@ -1,5 +1,6 @@
 import { removeFromArray } from "./utility.js"
 import { problemStrs } from "./global variables.js"
+import { Search } from "./classes/Search.js"
 
 
 export function processPosts(posts, keepIds) {
@@ -41,4 +42,22 @@ export function processPosts(posts, keepIds) {
     }
 
     return processed
+}
+
+export async function sample(prompt, amtPosts) {
+    const batches = Math.ceil(amtPosts / 1000)
+    const finalBatchAmt = amtPosts % 1000
+
+    let fetches = []
+    for (let pid = 0; pid < batches - 1; pid++) {
+        fetches.push(new Search(prompt, pid).fetch())
+    }
+    fetches.push(new Search(prompt, batches - 1, finalBatchAmt).fetch())
+
+    let posts = []
+    for (let fetch of fetches) {
+        posts.push(...processPosts(await fetch))
+    }
+
+    return posts
 }
