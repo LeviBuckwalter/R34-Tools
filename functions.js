@@ -62,18 +62,3 @@ export async function sample(prompt, amtPosts) {
 
     return posts
 }
-
-export function census(posts) {
-    let counts = {}
-    for (let post of posts) {
-        for (let tag of post.tags.values()) {
-            if (counts.hasOwnProperty(tag)) {
-                counts[tag]++
-            } else {
-                counts[tag] = 1
-            }
-        }
-    }
-
-    return counts
-}
