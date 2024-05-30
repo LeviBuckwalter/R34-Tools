@@ -14,7 +14,7 @@ export class Census {
         }
     }
 
-    amt(tag) {
+    count(tag) {
         if (this.counts.hasOwnProperty(tag)) {
             return this.counts[tag]
         } else {
