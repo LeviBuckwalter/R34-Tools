@@ -45,6 +45,7 @@ export function processPosts(posts, keepIds) {
 }
 
 export async function sample(prompt, amtPosts) {
+    /* returns an array of processed posts */
     const batches = Math.ceil(amtPosts / 1000)
     const finalBatchAmt = amtPosts % 1000
 
@@ -60,4 +61,19 @@ export async function sample(prompt, amtPosts) {
     }
 
     return posts
+}
+
+export function census(posts) {
+    let counts = {}
+    for (let post of posts) {
+        for (let tag of post.tags.values()) {
+            if (counts.hasOwnProperty(tag)) {
+                counts[tag]++
+            } else {
+                counts[tag] = 1
+            }
+        }
+    }
+
+    return counts
 }
