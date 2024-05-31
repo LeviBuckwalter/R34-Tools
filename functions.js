@@ -47,7 +47,7 @@ export function processPosts(posts, keepIds) {
 export async function sample(prompt, amtPosts) {
     /* returns an array of processed posts */
     const batches = Math.ceil(amtPosts / 1000)
-    const finalBatchAmt = amtPosts % 1000
+    const finalBatchAmt = amtPosts - ((batches - 1) * 1000)
 
     let fetches = []
     for (let pid = 0; pid < batches - 1; pid++) {
