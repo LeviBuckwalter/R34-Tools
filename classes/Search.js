@@ -1,4 +1,4 @@
-import { FetchConductor } from "../objects/FetchConductor.js"
+import { FC } from "../global variables.js"
 
 export class Search {
     constructor(prompt, pid, limit, json) {
@@ -18,6 +18,6 @@ export class Search {
             const resp = await fetch(url)
             return resp.json()
         }
-        return await FetchConductor.ticket(myEgg)
+        return await FC.ticket(myEgg)
     }
 }
