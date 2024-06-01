@@ -1,4 +1,3 @@
-import { removeFromArray } from "./utility.js"
 import { problemStrs } from "./global variables.js"
 import { Search } from "./classes/Search.js"
 
@@ -17,17 +16,17 @@ export function processPosts(posts, keepIds) {
     let processed = []
     for (let post of posts) {
         let tags = post.tags.split(" ")
-        function isProblematic(tag) {
-            let problem = false
+        function isSafe(tag) {
+            let safe = true
             for (let str of problemStrs) {
                 if (tag.includes(str)) {
-                    problem = true
+                    safe = false
                     break;
                 }
             }
-            return problem
+            return safe
         }
-        removeFromArray(tags, isProblematic)
+        tags = tags.filter(isSafe)
 
         let tagsSet = new Set()
         for (let tag of tags) {
