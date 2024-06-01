@@ -2,12 +2,9 @@ import { problemStrs } from "./global variables.js"
 import { Search } from "./classes/Search.js"
 
 
-export function processPosts(posts, keepIds) {
+export function processPosts(posts) {
     //returns a new array
 
-    if (keepIds === undefined) {
-        keepIds = true
-    }
     if (!Array.isArray(posts)) {
         console.log("error: processPosts was passed something that was not an array")
         return
@@ -33,11 +30,16 @@ export function processPosts(posts, keepIds) {
             tagsSet.add(tag)
         }
 
-        if (keepIds) {
-            processed.push({ id: post.id, tags: tagsSet })
-        } else {
-            processed.push(tagsSet)
-        }
+        processed.push({
+            id: post.id,
+            tags: tagsSet,
+            url: {
+                page: `https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`,
+                preview: post.preview_url,
+                sample: post.sample_url,
+                file: post.file_url
+            }
+        })
     }
 
     return processed
