@@ -1,4 +1,4 @@
-import { FC } from "../global variables.js"
+import { FC } from "../globals.js"
 
 export class Search {
     constructor(prompt, pid, limit, json) {

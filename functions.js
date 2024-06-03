@@ -1,4 +1,4 @@
-import { problemStrs } from "./global variables.js"
+import { problemStrs } from "./globals.js"
 import { Search } from "./classes/Search.js"
 
 
