@@ -1,4 +1,4 @@
-import { problemStrs } from "./globals.js"
+import { globals } from "./globals.js"
 import { Search } from "./classes/Search.js"
 
 
@@ -15,7 +15,7 @@ export function processPosts(posts) {
         let tags = post.tags.split(" ")
         function isSafe(tag) {
             let safe = true
-            for (let str of problemStrs) {
+            for (let str of globals.problemStrs) {
                 if (tag.includes(str)) {
                     safe = false
                     break;

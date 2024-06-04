@@ -1,4 +1,4 @@
-import { FC } from "../globals.js"
+import { globals } from "../globals.js"
 
 export class Search {
     constructor(prompt, pid, limit, json) {
@@ -18,6 +18,6 @@ export class Search {
             const resp = await fetch(url)
             return resp.json()
         }
-        return await FC.ticket(myEgg)
+        return await globals.FC.ticket(myEgg)
     }
 }
