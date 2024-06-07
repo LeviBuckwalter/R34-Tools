@@ -13,10 +13,9 @@ Then go to localhost:####/testing/ in your browser (usually http://localhost:800
 NODE:
 to enter node say "node"
 
-Gideon's code that made fetch work:
-let resp = await fetch(url)
-let json = await resp.json()
-console.log(json)
-
 importing:
 let { Search } = await import("./classes/Search.js")
+
+```
+let { store, retrieve, inCache, readCache } = await import("./Cache/functions.js"); let { globals } = await import("./Cache/globals.js"); let { getPosts } = await import("./functions.js")
+```
