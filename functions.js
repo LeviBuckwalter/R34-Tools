@@ -1,12 +1,5 @@
 import { globals } from "./globals.js"
 import { store, retrieve, inCacheObj } from "./Cache/functions.js"
-import { createHash } from "crypto"
-
-function hash(inputString) {
-    const h = createHash("sha256")
-    h.update(inputString)
-    return h.digest("hex")
-}
 
 function processPosts(posts) {
     //returns a new array
@@ -67,14 +60,13 @@ async function postsApi(prompt, pid, limit, json) {
 }
 
 async function postsCache(prompt, pid, limit, json) {
-    const cacheKey = "postsApi" + prompt + pid + limit + json
-    const cacheId = hash(cacheKey)
+    const cacheKey = `postsApi_${prompt}_${pid}_${limit}_${json}`
 
-    if (inCacheObj(cacheId)) {
-        return retrieve(cacheId)
+    if (inCacheObj(cacheKey)) {
+        return retrieve(cacheKey)
     } else {
         let posts = await postsApi(prompt, pid, limit, json)
-        store(posts, cacheId)
+        store(posts, cacheKey)
         return posts
     }
 }
