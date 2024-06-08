@@ -17,5 +17,5 @@ importing:
 let { Search } = await import("./classes/Search.js")
 
 ```
-let { store, retrieve, inCache, readCache } = await import("./Cache/functions.js"); let { globals } = await import("./Cache/globals.js"); let { getPosts } = await import("./functions.js")
+let { store, retrieve, inCache, readCache, initializeCache, clearCache } = await import("./Cache/functions.js"); let { globals } = await import("./Cache/globals.js"); let { getPosts, setAnchor, initializeAnchor } = await import("./functions.js"); await initializeCache(); initializeAnchor()
 ```
