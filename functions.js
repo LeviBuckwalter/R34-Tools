@@ -5,8 +5,7 @@ function processPosts(posts) {
     //returns a new array
 
     if (!Array.isArray(posts)) {
-        console.log("error: processPosts was passed something that was not an array")
-        return
+        posts = [posts]
     }
 
     let processed = []
@@ -34,9 +33,11 @@ function processPosts(posts) {
             tags: tagsSet,
             url: {
                 page: `https://rule34.xxx/index.php?page=post&s=view&id=${post.id}`,
-                preview: post.preview_url,
-                sample: post.sample_url,
-                file: post.file_url
+                image: {
+                    preview: post.preview_url,
+                    sample: post.sample_url,
+                    file: post.file_url
+                }
             }
         })
     }
@@ -60,19 +61,27 @@ async function postsApi(prompt, pid, limit, json) {
 }
 
 async function postsCache(prompt, pid, limit, json) {
-    const cacheKey = `postsApi_${prompt}_${pid}_${limit}_${json}`
+    /* implements maxId in prompt. The caching system for posts requires an anchor for things to work right. */
+    prompt = normalizePrompt(prompt)
+    if (globals.maxId === undefined) {
+        console.log("maxId === undefined, you need to set the anchor first")
+        return
+    }
+    prompt = `id:<${globals.maxId} ${prompt}`
+
+    const cacheKey = `postsApi_${prompt.replace(" ", "_")}_${pid}_${limit}_${json}`
 
     if (inCacheObj(cacheKey)) {
         return retrieve(cacheKey)
     } else {
         let posts = await postsApi(prompt, pid, limit, json)
-        store(posts, cacheKey)
+        store(posts, cacheKey, 48 * 60 * 60 * 1000)
         return posts
     }
 }
 
 export async function getPosts(prompt, amtPosts) {
-    /* returns an array of processed posts */
+
     const pages = Math.ceil(amtPosts / 1000)
 
     let promises = []
@@ -88,9 +97,25 @@ export async function getPosts(prompt, amtPosts) {
     return posts.slice(0, amtPosts)
 }
 
-function normalizePrompt(prompt) {
-    /*
-    I will want this function to remove double spaces and spaces from the end or beginning of the prompt
-    */
-    return prompt
+export function normalizePrompt(prompt) {
+    // Trim spaces from the beginning and end of the prompt
+    prompt = prompt.trim();
+
+    // Replace multiple spaces with a single space
+    prompt = prompt.replace(/\s+/g, ' ');
+
+    return prompt;
+}
+
+export function initializeAnchor() {
+    if (!inCacheObj("anchor")) {
+        console.log("There is no saved anchor in the cache.")
+    } else {
+        globals.maxId = retrieve("anchor")
+    }
+}
+
+export async function setAnchor() {
+    globals.maxId = (await postsApi("", 0, 1))[0].id
+    store(globals.maxId, "anchor", null)
 }
