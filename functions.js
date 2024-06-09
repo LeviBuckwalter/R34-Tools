@@ -1,5 +1,5 @@
 import { globals } from "./globals.js"
-import { store, retrieve, inCacheObj } from "./Cache/functions.js"
+import { store, retrieve, inCache } from "./Cache/functions.js"
 
 function processPosts(posts) {
     //returns a new array
@@ -71,7 +71,7 @@ async function postsCache(prompt, pid, limit, json) {
 
     const cacheKey = `postsApi_${prompt.replace(" ", "_")}_${pid}_${limit}_${json}`
 
-    if (inCacheObj(cacheKey)) {
+    if (inCache(cacheKey)) {
         return retrieve(cacheKey)
     } else {
         let posts = await postsApi(prompt, pid, limit, json)
@@ -108,7 +108,7 @@ export function normalizePrompt(prompt) {
 }
 
 export function initializeAnchor() {
-    if (!inCacheObj("anchor")) {
+    if (!inCache("anchor")) {
         console.log("There is no saved anchor in the cache.")
     } else {
         globals.maxId = retrieve("anchor")
