@@ -1,5 +1,5 @@
 import { globals } from "./globals.js"
-import { store, retrieve, inCache } from "./Cache/functions.js"
+import { store, retrieve, inCache, discard, keysThatStartWith } from "./Cache/endUser.js"
 
 function processPosts(posts) {
     //returns a new array
@@ -116,6 +116,11 @@ export function initializeAnchor() {
 }
 
 export async function setAnchor() {
+    let keys = keysThatStartWith("postsApi")
+    for (let key of keys) {
+        discard(key)
+    }
+
     globals.maxId = (await postsApi("", 0, 1))[0].id
     store(globals.maxId, "anchor", null)
 }
