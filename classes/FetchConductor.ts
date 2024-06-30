@@ -1,12 +1,21 @@
+type Chain = {
+    topLink: Promise<any>
+    links: number
+}
+
 export class FetchConductor {
-    constructor(amtChains) {
+    amtChains: number
+    chains: Chain[]
+
+    
+    constructor(amtChains: number) {
         this.amtChains = amtChains
         this.chains = []
-        for (let n = 0; n < this.amtChains; n++) {
+        for (let n = 1; n <= this.amtChains; n++) {
             this.chains.push({ topLink: Promise.resolve(), links: 0 })
         }
     }
-    shortestChain() {
+    shortestChain(): Chain {
         let sc = this.chains[0]
         for (let chain of this.chains) {
             if (chain.links < sc.links) {
@@ -15,20 +24,20 @@ export class FetchConductor {
         }
         return sc
     }
-    normalizeChains() {
+    normalizeChains(): void {
         const fewestLinks = this.shortestChain().links
         for (let chain of this.chains) {
             chain.links -= fewestLinks
         }
     }
-    ticket(egg) {
-        const sc = this.shortestChain()
+    ticket<T>(egg: () => Promise<T>): Promise<T> {
+        const sc: Chain = this.shortestChain()
         sc.links++
         async function retThunk() {
             await sc.topLink
             return await egg()
         }
-        let ret = retThunk()
+        const ret = retThunk()
         sc.topLink = ret
 
         if (Math.random() < 0.01) {

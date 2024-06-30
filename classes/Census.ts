@@ -1,11 +1,16 @@
+import { Post } from "./Post.ts"
+
 export class Census {
-    constructor(posts) {
+    counts: {[tag: string]: number}
+    size: number
+
+    constructor(posts: Post[]) {
         this.counts = {}
         this.size = 0
         for (let post of posts) {
             this.size++
             for (let tag of post.tags.values()) {
-                if (this.counts.hasOwnProperty(tag)) {
+                if (tag in this.counts) {
                     this.counts[tag]++
                 } else {
                     this.counts[tag] = 1
@@ -14,8 +19,8 @@ export class Census {
         }
     }
 
-    count(tag) {
-        if (this.counts.hasOwnProperty(tag)) {
+    count(tag: string): number {
+        if (tag in this.counts) {
             return this.counts[tag]
         } else {
             return 0

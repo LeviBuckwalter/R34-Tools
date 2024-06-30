@@ -1,0 +1,10 @@
+{
+  "version": "3",
+  "remote": {
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Cache.ts": "ade71bde842f4c947a5e360afee129821e0d93555b132f4e43bec070789b0d77",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Entry.ts": "b5b9b985dfc2b65fc868f788117d6a2abfa7c0ee47d9e583a5b669e8b4866b60",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/FunctionCache/Async.ts": "149ee8a33ba199cedb76e50bab92e8be8354f30dd83115bae693eb2448831cb2",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/functions/parseAndStringify.ts": "426cd137a65ce7a4c13390a4550e0446194f373526e66be3e339914fb8093de7",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/parameters.ts": "9541896d750c533877e2149384faab7640ef430e2185ff8b28dbd68eef50929b"
+  }
+}
