@@ -7,9 +7,9 @@ export class Census {
     constructor(posts: Post[]) {
         this.counts = {}
         this.size = 0
-        for (let post of posts) {
+        for (const post of posts) {
             this.size++
-            for (let tag of post.tags.values()) {
+            for (const tag of post.tags.values()) {
                 if (tag in this.counts) {
                     this.counts[tag]++
                 } else {
