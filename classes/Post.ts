@@ -1,9 +1,3 @@
-import { Cache } from "cache/classes/Cache.ts"
-
-export function test() {
-    console.log(new Cache("myFirstCache", 10))
-}
-
 export class Post {
     constructor(
         public id: number,
