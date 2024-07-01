@@ -35,16 +35,16 @@ export function processRawPosts(rawPosts: rawPost[]): Post[] {
     return processed
 }
 
-async function postsApi(prompt: string, pid: number, limit?: number, json?: boolean): Promise<rawPost[]> {
+async function postsApi(prompt: string, pid: number, limit?: number, json?: boolean): Promise<Post[]> {
     prompt = `id:<${main.GeneralCache.retrieve("maxId")} ${prompt}`
     pid = (pid === undefined) ? 0 : pid
     limit = (limit === undefined) ? 1000 : limit
     json = (json === undefined) ? true : json
     const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${prompt}&pid=${pid}&limit=${limit}&json=${(json === true) ? 1 : 0}`
 
-    async function myEgg(): Promise<rawPost[]> {
+    async function myEgg(): Promise<Post[]> {
         const resp = await fetch(url)
-        return await resp.json()
+        return processRawPosts(await resp.json())
         
     }
     const ret = await main.FC.ticket(myEgg)
@@ -81,17 +81,9 @@ export async function percentTags(tags: string[] | string, prompt: string, amtPo
         counts[tag] = 0
     }
     for (const post of posts) {
-        let foundTags = 0
-        for (const postTag of post.tags) {
-            for (const toDoTag of toDoTags) {
-                if (postTag === toDoTag) {
-                    counts[toDoTag]++
-                    foundTags++
-                    break
-                }
-            }
-            if (foundTags === toDoTags.length) {
-                break
+        for (const toDoTag of toDoTags) {
+            if (post.tags.has(toDoTag)) {
+                counts[toDoTag]++
             }
         }
     }
@@ -110,17 +102,19 @@ export async function percentTags(tags: string[] | string, prompt: string, amtPo
         )
     }
 
+    await main.PercentCache.save()
+
     return ret
 }
 
 
-export async function getPosts(prompt: string, amtPosts: number): Promise<rawPost[]> {
+export async function getPosts(prompt: string, amtPosts: number): Promise<Post[]> {
     const pages = Math.ceil(amtPosts / 1000)
-    const promises: Promise<rawPost[]>[] = []
+    const promises: Promise<Post[]>[] = []
     for (let pid = 0; pid < pages; pid++) {
         promises.push(postsApi(prompt, pid))
     }
-    const posts: rawPost[] = []
+    const posts: Post[] = []
     for (const promise of promises) {
         posts.push(...(await promise))
     }
