@@ -10,7 +10,7 @@ type rawPost = {
     tags: string
     comment_count: number
 }
-function processRawPosts(rawPosts: rawPost[]): Post[] {
+export function processRawPosts(rawPosts: rawPost[]): Post[] {
     function isSafe(tag: string): boolean {
         let safe = true
         for (const str of globals.problemStrs) {
@@ -35,88 +35,94 @@ function processRawPosts(rawPosts: rawPost[]): Post[] {
     return processed
 }
 
-async function postsApi(prompt: string, pid: number, limit?: number, json?: boolean): Promise<Post[]> {
+async function postsApi(prompt: string, pid: number, limit?: number, json?: boolean): Promise<rawPost[]> {
+    prompt = `id:<${main.GeneralCache.retrieve("maxId")} ${prompt}`
     pid = (pid === undefined) ? 0 : pid
     limit = (limit === undefined) ? 1000 : limit
     json = (json === undefined) ? true : json
     const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${prompt}&pid=${pid}&limit=${limit}&json=${(json === true) ? 1 : 0}`
 
-    async function myEgg(): Promise<Post[]> {
+    async function myEgg(): Promise<rawPost[]> {
         const resp = await fetch(url)
-        return processRawPosts(await resp.json())
+        return await resp.json()
+        
     }
     const ret = await main.FC.ticket(myEgg)
     return ret
 }
 
-async function apiCache(prompt: string, pid: number, dontSave?: boolean): Promise<Post[]> {
-    const GCReturn: number | undefined = main.GeneralCache.retrieve("maxId")
-    if (!GCReturn) {
-        throw new Error(`the maxId is undefined, so it's not possible to cache api returns`)
+export async function percentTags(tags: string[] | string, prompt: string, amtPosts: number): Promise<{[tag: string]: number}> {
+    if (!Array.isArray(tags)) {
+        tags = [tags]
     }
-    prompt = `id:<${GCReturn} ${prompt}`
+    prompt = normalizePrompt(prompt)
+    function key(tag: string): string {
+        return`${prompt.replace(" ", "_")}:${tag}`
+    }
     
-    const SCKey = `${pid}_${prompt.replace(" ", "-")}`
-    const SCReturn = main.SearchCache.retrieve(SCKey)
-    if (SCReturn) {
-        const posts: Post[] = []
-        for (const id of SCReturn.postIds) {
-            const PCReturn = main.PostCache.retrieve(`${id}`)
-            if (PCReturn) {
-                posts.push(PCReturn.post)
-            } else {
-                throw new Error(`post under ${id} was not found in PostCache`)
+    const ret: {[tag: string]: number} = {}
+
+    const toDoTags: string[] = []
+    for (const tag of tags) {
+        const PCRet = main.PercentCache.retrieve(key(tag))
+        if (PCRet && (PCRet.amtPosts >= amtPosts || PCRet.allPostsChecked)) {
+            ret[tag] = PCRet.percent
+        } else {
+            toDoTags.push(tag)
+        }
+    }
+    if (toDoTags.length === 0) {
+        return ret
+    }
+    
+    const posts = await getPosts(prompt, amtPosts)
+    const counts: {[tag: string]: number} = {}
+    for (const tag of toDoTags) {
+        counts[tag] = 0
+    }
+    for (const post of posts) {
+        let foundTags = 0
+        for (const postTag of post.tags) {
+            for (const toDoTag of toDoTags) {
+                if (postTag === toDoTag) {
+                    counts[toDoTag]++
+                    foundTags++
+                    break
+                }
+            }
+            if (foundTags === toDoTags.length) {
+                break
             }
         }
-        return posts
     }
 
-    const posts = await postsApi(prompt, pid)
-    const postIds: number[] = []
-    for (const post of posts) {
-        postIds.push(post.id)
+    const allPostsChecked = posts.length < amtPosts
+    for (const tag of toDoTags) {
+        ret[tag] = counts[tag]/posts.length
+        main.PercentCache.store(
+            key(tag),
+            {
+                percent: ret[tag],
+                amtPosts: posts.length,
+                allPostsChecked: allPostsChecked
+            },
+            1000*60*60*24*7
+        )
     }
-    main.SearchCache.store(
-        `${pid}_${prompt.replace(" ", "-")}`,
-        {
-            prompt: prompt,
-            pid: pid,
-            postIds: postIds
-        }
-    )
-    if (!dontSave) {
-        await main.SearchCache.save()
-    }
-    for (const post of posts) {
-        const PCReturn = main.PostCache.retrieve(`${post.id}`)
-        if (PCReturn) {
-            PCReturn.refs++
-        } else {
-            main.PostCache.store(`${post.id}`, {refs: 1, post: post})
-        }
-    }
-    if (!dontSave) {
-        await main.PostCache.save()
-    }
-    return posts
+
+    return ret
 }
 
 
-export async function getPosts(prompt: string, amtPosts: number, dontSave?: boolean): Promise<Post[]> {
-    prompt = normalizePrompt(prompt)
-    
+export async function getPosts(prompt: string, amtPosts: number): Promise<rawPost[]> {
     const pages = Math.ceil(amtPosts / 1000)
-    const promises: Promise<Post[]>[] = []
+    const promises: Promise<rawPost[]>[] = []
     for (let pid = 0; pid < pages; pid++) {
-        promises.push(apiCache(prompt, pid, true))
+        promises.push(postsApi(prompt, pid))
     }
-    const posts: Post[] = []
+    const posts: rawPost[] = []
     for (const promise of promises) {
         posts.push(...(await promise))
-    }
-    if (!dontSave) {
-        await main.SearchCache.save()
-        await main.PostCache.save()
     }
     
     return posts.slice(0, amtPosts)
@@ -133,21 +139,17 @@ export function normalizePrompt(prompt: string): string {
 }
 
 export async function setAnchor(): Promise<void> {
-    main.SearchCache.clear()
     main.GeneralCache.store("maxId", (await postsApi("", 0, 1))[0].id)
-    await main.GeneralCache.save()
-    await main.SearchCache.save()
-    await main.PostCache.save()
+    main.PercentCache.clear()
+    await saveAll()
 }
 
 export async function saveAll(): Promise<void> {
-    await main.SearchCache.save()
-    await main.PostCache.save()
+    await main.PercentCache.save()
     await main.GeneralCache.save()
 }
 
 export async function loadAll(): Promise<void> {
-    await main.SearchCache.load()
-    await main.PostCache.load()
+    await main.PercentCache.load()
     await main.GeneralCache.load()
 }
