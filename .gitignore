@@ -1,3 +1,5 @@
+deno.jsonc
+deno.lock
 cache.txt
 PercentCache.txt
 GeneralCache.txt
