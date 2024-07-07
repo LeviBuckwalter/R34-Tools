@@ -32,6 +32,14 @@ export class Census {
         }
     }
 
+    percent(tag: string): number {
+        if (tag in this.counts) {
+            return this.counts[tag]/this.size
+        } else {
+            return 0
+        }
+    }
+
     toArray(amtTags?: number): {tag: string, count: number}[] {
         const tags: string[] = Object.keys(this.counts)
         const ret: {tag: string, count: number}[] = []

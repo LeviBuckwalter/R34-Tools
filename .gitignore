@@ -1,8 +1,9 @@
 deno.jsonc
 deno.lock
-cache.txt
-PercentCache.txt
-GeneralCache.txt
-testing.ts
-ValidTags.txt
-GetCensus.txt
+General$.txt
+PostsByPostId$.txt
+PostIdsBySearch$.txt
+testing
+set_aside_files
+Percent$.txt
+Census$.txt
