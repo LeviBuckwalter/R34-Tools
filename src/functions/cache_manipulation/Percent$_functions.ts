@@ -1,4 +1,4 @@
-import { Percents$ } from "../../caches/shortcut_caches/Percent$.ts";
+import { Percent$ } from "../../caches/shortcut_caches/Percent$.ts";
 import { getPosts } from "../end_user.ts";
 import { normalizePrompt } from "../utility_functions.ts";
 
@@ -25,7 +25,7 @@ export async function percentTags(
     //check Percent$ for previous data:
     const toDoTags: string[] = []
     for (const tag of tags) {
-        const Percents$Ret = Percents$.retrieve(key(tag))
+        const Percents$Ret = Percent$.retrieve(key(tag))
         if (Percents$Ret && (Percents$Ret.amtPosts >= amtPosts || Percents$Ret.allPostsChecked)) {
             percents[tag] = Percents$Ret.percent
         } else {
@@ -56,7 +56,7 @@ export async function percentTags(
     const allPostsChecked = posts.length < amtPosts
     for (const tag of toDoTags) {
         percents[tag] = counts[tag]/posts.length
-        Percents$.store(
+        Percent$.store(
             key(tag),
             {
                 percent: percents[tag],
@@ -66,7 +66,7 @@ export async function percentTags(
             1000*60*60*24*7
         )
     }
-    await Percents$.save()
+    await Percent$.save()
     
     //return filled percents object:
     return percents

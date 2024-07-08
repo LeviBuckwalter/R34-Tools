@@ -6,5 +6,5 @@ type Percent$Entry = {
     amtPosts: number,
     allPostsChecked: boolean
 }
-export const Percents$: Cache<Percent$Entry> = new Cache("Percent$", 5)
-caches.push(Percents$)
+export const Percent$: Cache<Percent$Entry> = new Cache("Percent$", 5)
+caches.push(Percent$)
