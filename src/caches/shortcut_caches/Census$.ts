@@ -2,5 +2,5 @@ import { Cache } from "cache/classes/Cache.ts";
 import { Census } from "../../classes/Census.ts";
 import { caches } from "../../globals.ts";
 
-export const Census$: Cache<Census> = new Cache("Census$", 20, [Census])
+export const Census$: Cache<Census> = new Cache("Census$", 40, [Census])
 caches.push(Census$)
