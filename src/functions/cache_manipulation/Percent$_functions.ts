@@ -1,6 +1,12 @@
 import { Percent$ } from "../../caches/shortcut_caches/Percent$.ts";
+import { Census } from "../../classes/Census.ts";
+import { Post } from "../../classes/Post.ts";
 import { getPosts } from "../end_user.ts";
 import { normalizePrompt } from "../utility_functions.ts";
+
+function Percent$Key(prompt: string, tag: string): string {
+    return`${prompt.replace(" ", "_")}:${tag}`
+}
 
 
 export async function percentTags(
@@ -15,9 +21,7 @@ export async function percentTags(
     // }
     
     prompt = normalizePrompt(prompt)
-    function key(tag: string): string {
-        return`${prompt.replace(" ", "_")}:${tag}`
-    }
+    
     
     //create return object to be filled:
     const percents: {[tag: string]: number} = {}
@@ -25,7 +29,7 @@ export async function percentTags(
     //check Percent$ for previous data:
     const toDoTags: string[] = []
     for (const tag of tags) {
-        const Percents$Ret = Percent$.retrieve(key(tag))
+        const Percents$Ret = Percent$.retrieve(Percent$Key(prompt, tag))
         if (Percents$Ret && (Percents$Ret.amtPosts >= amtPosts || Percents$Ret.allPostsChecked)) {
             percents[tag] = Percents$Ret.percent
         } else {
@@ -57,7 +61,7 @@ export async function percentTags(
     for (const tag of toDoTags) {
         percents[tag] = counts[tag]/posts.length
         Percent$.store(
-            key(tag),
+            Percent$Key(prompt, tag),
             {
                 percent: percents[tag],
                 amtPosts: posts.length,
@@ -70,4 +74,27 @@ export async function percentTags(
     
     //return filled percents object:
     return percents
+}
+
+
+export async function getCensus(prompt: string, amtPosts: number): Promise<Census> {
+    const posts: Post[] = await getPosts(prompt, amtPosts)
+    const census = new Census(posts)
+
+    const tagCounts: {tag: string, count: number}[] = census.toArray()
+    for (const tagCount of tagCounts) {
+        if (census.percent(tagCount.tag) > 0.05) {
+            //add to Percent$
+            Percent$.store(
+                Percent$Key(prompt, tagCount.tag),
+                {
+                    percent: census.percent(tagCount.tag),
+                    amtPosts: amtPosts,
+                    allPostsChecked: census.size < amtPosts
+                },
+                1000*60*60*24*7
+            )
+        }
+    }
+    return census
 }
