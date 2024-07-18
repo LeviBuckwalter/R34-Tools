@@ -6,6 +6,6 @@ import { caches } from "../../globals.ts";
 stores posts, indexed by postIds.
 */
 
-export const PostsByPostId$: Cache<Post> = new Cache("PostsByPostId$", 30, [Post])
+export const PostsByPostId$: Cache<Post> = new Cache("PostsByPostId$", 50000, [Post], true)
 
 caches.push(PostsByPostId$)
