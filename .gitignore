@@ -3,6 +3,7 @@ deno.lock
 General$.txt
 PostsByPostId$.txt
 PostIdsBySearch$.txt
+Tags$.txt
 testing
 set_aside_files
 Percent$.txt
