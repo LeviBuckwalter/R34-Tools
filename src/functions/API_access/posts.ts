@@ -1,8 +1,7 @@
-import { FetchConductor } from "../../classes/FetchConductor.ts";
 import { Post } from "../../classes/Post.ts";
 import { processRawPosts } from "../utility_functions.ts";
+import { FC } from "./the_fetch_conductor.ts"
 
-const FC: FetchConductor = new FetchConductor(10)
 export async function postsApi(prompt: string, pid: number, limit?: number, json?: boolean): Promise<Post[]> {
     pid = (pid === undefined) ? 0 : pid
     limit = (limit === undefined) ? 1000 : limit
