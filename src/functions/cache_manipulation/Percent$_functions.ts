@@ -80,21 +80,19 @@ export async function percentTags(
     } //else:
     
     //find percent data manually:
-    const census = await getCensus(prompt, amtPosts)
+    const census = await getCensus(prompt, amtPosts, cacheOthers)
     for (const tag of tags) {
         //fill return object:
         percents[tag] = census.percent(tag)
         //store in cache in case getCensus didn't already:
-        if (cacheOthers) {
-            Percent$.store(
-                Percent$Key(prompt, tag),
-                {
-                    percent: census.percent(tag),
-                    amtPosts: amtPosts,
-                    allPostsChecked: census.size < amtPosts
-                }
-            )
-        }
+        Percent$.store(
+            Percent$Key(prompt, tag),
+            {
+                percent: census.percent(tag),
+                amtPosts: amtPosts,
+                allPostsChecked: census.size < amtPosts
+            }
+        )
     }
 
     //return filled percents object:
