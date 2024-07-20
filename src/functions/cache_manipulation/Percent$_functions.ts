@@ -10,9 +10,13 @@ function Percent$Key(prompt: string, tag: string): string {
 }
 
 
-export async function getCensus(prompt: string, amtPosts: number): Promise<Census> {
+export async function getCensus(prompt: string, amtPosts: number, cache?: boolean): Promise<Census> {
     const posts: Post[] = await getPosts(prompt, amtPosts)
     const census = new Census(posts)
+
+    if (!cache) {
+        return census
+    }//else:
 
     const tagCounts: {tag: string, count: number}[] = census.toArray()
     for (const tagCount of tagCounts) {
@@ -36,7 +40,8 @@ export async function getCensus(prompt: string, amtPosts: number): Promise<Censu
 export async function percentTags(
     tags: string[],
     prompt: string,
-    amtPosts: number
+    amtPosts: number,
+    cacheOthers?: boolean
 ): Promise<{[tag: string]: number}> {
     /*
     use this function to find the percent of any given tag in a sample of posts. Tell the function what tags you want to find the percents of (in the form of an array of strings), and then describe the sample of posts by saying what prompt you want to use to search, and how many posts you want checked.
@@ -80,14 +85,16 @@ export async function percentTags(
         //fill return object:
         percents[tag] = census.percent(tag)
         //store in cache in case getCensus didn't already:
-        Percent$.store(
-            Percent$Key(prompt, tag),
-            {
-                percent: census.percent(tag),
-                amtPosts: amtPosts,
-                allPostsChecked: census.size < amtPosts
-            }
-        )
+        if (cacheOthers) {
+            Percent$.store(
+                Percent$Key(prompt, tag),
+                {
+                    percent: census.percent(tag),
+                    amtPosts: amtPosts,
+                    allPostsChecked: census.size < amtPosts
+                }
+            )
+        }
     }
 
     //return filled percents object:
