@@ -1,5 +1,5 @@
-import { Tag$ } from "../../caches/TagCountCache.ts";
-import { count } from "../API_access/tags.ts";
+import { Tag$ } from "./TagCountCache.ts";
+import { count } from "../../general_functions/API_access/tags.ts";
 
 export async function countWithCache(tag: string): Promise<number> {
     const key = tag

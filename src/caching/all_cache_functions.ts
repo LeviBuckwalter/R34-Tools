@@ -1,8 +1,8 @@
-import { General$ } from "../../caches/General$.ts";
-import {postsApi} from "../API_access/posts.ts"
-import { PostsByPostId$ } from "../../caches/post_caches/PostsByPostId$.ts";
-import { PostIdsBySearch$ } from "../../caches/post_caches/PostIdsBySearch$.ts";
-import { caches } from "../../globals.ts";
+import { General$ } from "./General$.ts";
+import {postsApi} from "../general_functions/API_access/posts.ts"
+import { PostsByPostId$ } from "./post_caching/PostsByPostId$.ts";
+import { PostIdsBySearch$ } from "./post_caching/PostIdsBySearch$.ts";
+import { caches } from "../globals.ts";
 
 export async function saveAll(): Promise<void> {
     for (const cache of caches) {

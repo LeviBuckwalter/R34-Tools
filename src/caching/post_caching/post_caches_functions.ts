@@ -1,9 +1,9 @@
 import { Post } from "../../classes/Post.ts";
-import { General$ } from "../../caches/General$.ts";
-import { PostIdsBySearch$ } from "../../caches/post_caches/PostIdsBySearch$.ts";
-import { PostsByPostId$ } from "../../caches/post_caches/PostsByPostId$.ts";
-import { postsApi } from "../API_access/posts.ts";
-import { normalizePrompt } from "../utility_functions.ts";
+import { General$ } from "../General$.ts";
+import { PostIdsBySearch$ } from "./PostIdsBySearch$.ts";
+import { PostsByPostId$ } from "./PostsByPostId$.ts";
+import { postsApi } from "../../general_functions/API_access/posts.ts";
+import { normalizePrompt } from "../../general_functions/utility_functions.ts";
 
 export async function postsApiWithCache(prompt: string, pid: number): Promise<Post[]> {
     const Gen$Ret = General$.retrieve("maxId")

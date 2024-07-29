@@ -1,13 +1,11 @@
 type Chain = {
-    topLink: Promise<any>
+    topLink: Promise<unknown>
     links: number
 }
 
 export class FetchConductor {
     amtChains: number
     chains: Chain[]
-
-    
     constructor(amtChains: number) {
         this.amtChains = amtChains
         this.chains = []
@@ -15,6 +13,7 @@ export class FetchConductor {
             this.chains.push({ topLink: Promise.resolve(), links: 0 })
         }
     }
+
     shortestChain(): Chain {
         let sc = this.chains[0]
         for (let chain of this.chains) {
@@ -35,7 +34,16 @@ export class FetchConductor {
         sc.links++
         async function retThunk() {
             await sc.topLink
-            return await egg()
+            let tries = 0
+            while (tries <= 5) {
+                try {
+                    return await egg()
+                } catch {
+                    tries++
+                    console.log(`A fetch just failed on attempt #${tries}`)
+                }
+            }
+            throw new Error(`The fetch conductor was given an egg (${egg}) which keeps throwing an error, even after 5 tries.`)
         }
         const ret = retThunk()
         sc.topLink = ret

@@ -1,6 +1,6 @@
 import { FC } from "./the_fetch_conductor.ts";
 
-export async function count(tag: string): Promise<number> /*| Promise<null> */{
+export async function count(tag: string): Promise<number> {
     const url = `https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&name=${tag}`
     async function myEgg(): Promise<string> {
         const resp = await fetch(url)

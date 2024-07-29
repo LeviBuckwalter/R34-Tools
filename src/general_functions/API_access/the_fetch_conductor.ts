@@ -1,3 +1,3 @@
 import { FetchConductor } from "../../classes/FetchConductor.ts";
 
-export const FC: FetchConductor = new FetchConductor(10)
+export const FC: FetchConductor = new FetchConductor(100)

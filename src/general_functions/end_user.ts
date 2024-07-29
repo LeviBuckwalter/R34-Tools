@@ -1,7 +1,7 @@
 import { Post } from "../classes/Post.ts";
 import { postsApi } from "./API_access/posts.ts";
-import { countWithCache } from "./cache_manipulation/Tag$_functions.ts";
-import { postsApiWithCache } from "./cache_manipulation/post_caches_functions.ts";
+import { countWithCache } from "../caching/tag_count_cache/Tag$_functions.ts";
+import { postsApiWithCache } from "../caching/post_caching/post_caches_functions.ts";
 
 export async function getPosts(prompt: string, amtPosts: number, cache?: boolean): Promise<Post[]> {
     const pages = Math.ceil(amtPosts / 1000)
@@ -11,9 +11,8 @@ export async function getPosts(prompt: string, amtPosts: number, cache?: boolean
         if (cache) {
             promises.push(postsApiWithCache(prompt, pid))
         } else {
-            promises.push(postsApi(prompt, pid))
+            promises.push(postsApi(prompt, pid, Math.min(1000, amtPosts - 1000*pid)))
         }
-        
     }
     const posts: Post[] = []
     for (const promise of promises) {

@@ -1,10 +1,9 @@
 {
   "version": "3",
   "remote": {
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Cache.ts": "fd4fd28aaff370c574123102e2c0fb5947b1b1015c467baba8cacecce00c5843",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Entry.ts": "bd037eb6e5d18cd42965030df2f51a30bbf3bb91a9fad799f689cf80a214b92e",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/FunctionCache/Async.ts": "df499eb541ba27cd2e0dfdc7ff64671993e43eceda2e29cf6310f6c1c3a89201",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/functions/parseAndStringify.ts": "eb85c7545e4c383f93de60f9748280a961c30c9140179f4467e7cb736bd11eaa",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Cache.ts": "68a1de06a3c111993b0d1c58c502b8dd0bcfe79e66e7c25586c9d9816eaa9abc",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Entry.ts": "4e222d8077696f163a917636fe150e2cd0e83a1fa153608693d3d22a91246b8a",
+    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/functions/parseAndStringify.ts": "194b2a13b965c0de5c417a56e3c0b7ee57bce08364ef8b2c5ade1ba1c48d8fa9",
     "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/parameters.ts": "880a5c57a619cf191dc2ea42ab2b8a7710e6fda4d7a2ec5abfb0b6fa897e3640"
   }
 }

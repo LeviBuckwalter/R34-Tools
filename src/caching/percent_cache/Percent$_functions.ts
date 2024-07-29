@@ -1,8 +1,8 @@
-import { Percent$ } from "../../caches/shortcut_caches/Percent$.ts";
+import { Percent$ } from "./Percent$.ts";
 import { Census } from "../../classes/Census.ts";
 import { Post } from "../../classes/Post.ts";
-import { getPosts } from "../end_user.ts";
-import { normalizePrompt } from "../utility_functions.ts";
+import { getPosts } from "../../general_functions/end_user.ts";
+import { normalizePrompt } from "../../general_functions/utility_functions.ts";
 
 
 function Percent$Key(prompt: string, tag: string): string {
