@@ -4,7 +4,7 @@ import { idToTs, tsToId } from "../../general_functions/id_timestamp_conversion.
 import { postsApi } from "../../general_functions/API_access/posts.ts";
 import { FC } from "../../general_functions/API_access/the_fetch_conductor.ts";
 import { normalizePrompt } from "../../general_functions/utility_functions.ts";
-import { PromptCount$ } from "./promptCount$.ts";
+import { PromptCount$ } from "./PromptCount$.ts";
 
 export async function getCount(prompt: string, readFromCache?: boolean, storeInCache?: boolean): Promise<number> {
     prompt = normalizePrompt(prompt)
