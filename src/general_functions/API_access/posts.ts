@@ -5,7 +5,6 @@ import { FC } from "./the_fetch_conductor.ts"
 export async function postsApi(prompt: string, pid: number, limit?: number): Promise<Post[]> {
     pid = (pid === undefined) ? 0 : pid
     limit = (limit === undefined) ? 1000 : limit
-    json = (json === undefined) ? true : json
     const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${prompt}&pid=${pid}&limit=${limit}&json=1`
 
     async function myEgg(): Promise<Post[]> {
