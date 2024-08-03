@@ -1,9 +1,5 @@
 {
   "tasks": {
     "dev": "deno run --watch main.ts"
-  },
-  "imports": {
-    // "cache/": "./Cache/"
-    "cache/": "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/"
   }
 }

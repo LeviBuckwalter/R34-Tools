@@ -1,9 +1,0 @@
-{
-  "version": "3",
-  "remote": {
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Cache.ts": "68a1de06a3c111993b0d1c58c502b8dd0bcfe79e66e7c25586c9d9816eaa9abc",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/classes/Entry.ts": "4e222d8077696f163a917636fe150e2cd0e83a1fa153608693d3d22a91246b8a",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/functions/parseAndStringify.ts": "194b2a13b965c0de5c417a56e3c0b7ee57bce08364ef8b2c5ade1ba1c48d8fa9",
-    "https://raw.githubusercontent.com/LeviBuckwalter/Cache/main/parameters.ts": "880a5c57a619cf191dc2ea42ab2b8a7710e6fda4d7a2ec5abfb0b6fa897e3640"
-  }
-}

@@ -1,6 +1,5 @@
-import { Cache } from "cache/classes/Cache.ts";
+import { Cache } from "../../../Cache/classes/Cache.ts";
 import { PostsByPostId$ } from "./PostsByPostId$.ts";
-import { caches } from "../../globals.ts";
 
 /*
 stores the results of specific searches. This cache doesn't store any actual posts, just postIds. If someone asks for the results of a given search, and this cache has an entry for it, but not every post has an entry in the PostsByPostIds cache, then this cache will delete its entry and return undefined.
@@ -24,5 +23,3 @@ PostIdsBySearch$.retrieve = function(key: string): number[] | undefined {
     }
     return originalRet
 }
-
-caches.push(PostIdsBySearch$)

@@ -5,6 +5,7 @@ import { PostsByPostId$ } from "./PostsByPostId$.ts";
 import { postsApi } from "../../general_functions/API_access/posts.ts";
 import { normalizePrompt } from "../../general_functions/utility_functions.ts";
 
+
 export async function postsApiWithCache(prompt: string, pid: number): Promise<Post[]> {
     const Gen$Ret = General$.retrieve("maxId")
     if (!Gen$Ret) {

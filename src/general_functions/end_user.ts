@@ -1,7 +1,8 @@
 import { Post } from "../classes/Post.ts";
 import { postsApi } from "./API_access/posts.ts";
-import { countWithCache } from "../caching/tag_count_cache/Tag$_functions.ts";
+import { countWithCache } from "../../outdated_scripts/tag_count_cache/Tag$_functions.ts";
 import { postsApiWithCache } from "../caching/post_caching/post_caches_functions.ts";
+import { getCount } from "../caching/prompt_count_cache/PromptCount$_functions.ts";
 
 export async function getPosts(prompt: string, amtPosts: number, cache?: boolean): Promise<Post[]> {
     const pages = Math.ceil(amtPosts / 1000)
@@ -35,24 +36,35 @@ export async function validTags(...tags: string[]): Promise<boolean> {
     return true
 }
 
-// export async function validPrompt(prompt: string): Promise<boolean> {
-//     /*
-//     -valid if:
-//         1) valid tag
-//         2) "-" + 1||4||5||6
-//         3) "(" is valid if next str is valid tag, and then "~", and then valid tag, repeat any number of times, must end with ")" after valid tag
-//         4) "rating:" + safe||questionable||explicit
-//         5) "sort:" + "id"||"score"||"rating"||"height"||"width"||"parent"||"updated" + "asc"||"desc"
-//         6) "width"||"height" + ":" + ">"||"<"||"" + "=" + number
+export async function getProportion(
+    promptSubgroup: string,
+    promptBaseline: string,
+    options: {lookInCache?: boolean, saveToCache?: boolean} = {}
+): Promise<{proportion: number, datapoints: number}> {
+    const {lookInCache = true, saveToCache = true} = options
 
+    const countBl = getCount(promptBaseline, lookInCache, saveToCache)
+    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, lookInCache, saveToCache)
+    return {
+        proportion: (await countSg)/(await countBl),
+        datapoints: await countBl
+    }
+}
 
-//     bleah... I think I should just build in preperation for an API request to fail.
-//     */
-    
-//     const ignoreStrs: RegExp[] = ["(", "~", ")", ]
+export async function getRelativeProportion(
+    promptSubgroup: string,
+    promptBaseline: string,
+    options: {lookInCache?: boolean, saveToCache?: boolean}
+): Promise<{relativeProportion: number, datapoints: number}> {
+    const {lookInCache = true, saveToCache = true} = options
 
-//     const promptArray: string[] = prompt.split(" ")
-//     for (const str of promptArray) {
+    const countAll = getCount("", lookInCache, saveToCache)
+    const countBl = getCount(promptBaseline, lookInCache, saveToCache)
+    const countSgIndependant = getCount(promptSubgroup, lookInCache, saveToCache)
+    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, lookInCache, saveToCache)
 
-//     }
-// }
+    return {
+        relativeProportion: ((await countSg)/(await countBl))/((await countSgIndependant)/(await countAll)),
+        datapoints: await countSg
+    }
+}
