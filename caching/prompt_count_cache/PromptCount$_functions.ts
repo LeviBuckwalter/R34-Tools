@@ -1,5 +1,5 @@
 import { getPosts } from "../../general_functions/end_user.ts";
-import { countWithCache } from "../../../outdated_scripts/tag_count_cache/Tag$_functions.ts";
+import { countWithCache } from "../../outdated_scripts/tag_count_cache/Tag$_functions.ts";
 import { idToTs, tsToId } from "../../general_functions/id_timestamp_conversion.ts";
 import { postsApi } from "../../general_functions/API_access/posts.ts";
 import { FC } from "../../general_functions/API_access/the_fetch_conductor.ts";

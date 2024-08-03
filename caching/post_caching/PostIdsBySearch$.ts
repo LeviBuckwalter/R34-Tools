@@ -1,4 +1,4 @@
-import { Cache } from "../../../Cache/classes/Cache.ts";
+import { Cache } from "../../Cache/classes/Cache.ts";
 import { PostsByPostId$ } from "./PostsByPostId$.ts";
 
 /*

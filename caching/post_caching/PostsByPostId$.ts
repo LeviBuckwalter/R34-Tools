@@ -1,5 +1,5 @@
 import { Post } from "../../classes/Post.ts";
-import { Cache } from "../../../Cache/classes/Cache.ts";
+import { Cache } from "../../Cache/classes/Cache.ts";
 
 /*
 stores posts, indexed by postIds.

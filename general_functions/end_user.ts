@@ -1,6 +1,6 @@
 import { Post } from "../classes/Post.ts";
 import { postsApi } from "./API_access/posts.ts";
-import { countWithCache } from "../../outdated_scripts/tag_count_cache/Tag$_functions.ts";
+import { countWithCache } from "../outdated_scripts/tag_count_cache/Tag$_functions.ts";
 import { postsApiWithCache } from "../caching/post_caching/post_caches_functions.ts";
 import { getCount } from "../caching/prompt_count_cache/PromptCount$_functions.ts";
 
