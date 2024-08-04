@@ -2,6 +2,7 @@ import { Post } from "../../classes/Post.ts";
 import { PostIdsBySearch$ } from "./PostIdsBySearch$.ts";
 import { PostsByPostId$ } from "./PostsByPostId$.ts";
 import { postsApi } from "../../general_functions/API_access/posts.ts";
+import { General$ } from "../General$.ts";
 
 
 export async function postsApiWithCache(
@@ -43,4 +44,10 @@ export async function postsApiWithCache(
     }
     
     return posts
+}
+
+export async function resetAnchor(): Promise<void> {
+    General$.store("maxId", (await postsApi("", 0, 1))[0].id)
+    PostIdsBySearch$.clear()
+    PostsByPostId$.clear()
 }

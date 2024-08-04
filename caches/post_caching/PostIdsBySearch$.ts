@@ -1,4 +1,4 @@
-import { Cache } from "../../cache tools/classes/Cache.ts";
+import { Cache } from "cache-tools/classes/Cache.ts"
 import { normalizePrompt } from "../../general_functions/utility_functions.ts";
 import { General$ } from "../General$.ts";
 import { PostsByPostId$ } from "./PostsByPostId$.ts";
