@@ -1,0 +1,46 @@
+import { Post } from "../../classes/Post.ts";
+import { PostIdsBySearch$ } from "./PostIdsBySearch$.ts";
+import { PostsByPostId$ } from "./PostsByPostId$.ts";
+import { postsApi } from "../../general_functions/API_access/posts.ts";
+
+
+export async function postsApiWithCache(
+    prompt: string,
+    pid: number,
+    options: {
+        lookInCache?: boolean,
+        storeInCache?: boolean
+    }
+): Promise<Post[]> {
+    const {lookInCache = true, storeInCache = true} = options
+    
+    const search$Key = PostIdsBySearch$.makeKey(prompt, pid)
+    const search$Ret = PostIdsBySearch$.retrieve(search$Key)
+
+    if (lookInCache && search$Ret) {
+        const posts: Post[] = []
+        for (const postId of search$Ret) {
+            const post$Key = PostsByPostId$.makeKey(postId)
+            const post$Ret = PostsByPostId$.retrieve(post$Key)
+            if (post$Ret) {
+                posts.push(post$Ret)
+            } else {
+                throw new Error(`PostsByPostIds$ returned undefined for the id "${postId}". PostIdsBySearch$ should have returned undefined if not all the posts exist in PostsByPostIds$.`)
+            }
+        }
+        return posts
+    }//else:
+    const posts = await postsApi(prompt, pid)
+    
+    if (storeInCache) {
+        const ids: number[] = []
+        for (const post of posts) {
+            ids.push(post.id)
+            const key = PostsByPostId$.makeKey(post.id)
+            PostsByPostId$.store(key, post)
+        }
+        PostIdsBySearch$.store(search$Key, ids)
+    }
+    
+    return posts
+}
