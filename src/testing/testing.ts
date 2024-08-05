@@ -1,6 +1,6 @@
-import { count } from "../general_functions/API_access/tags.js";
-import { getPosts } from "../general_functions/end_user.js";
-import { idToTs } from "../general_functions/id_timestamp_conversion.js";
+import { count } from "../general_functions/API_access/tags"
+import { getPosts } from "../general_functions/end_user"
+import { idToTs } from "../general_functions/id_timestamp_conversion"
 
 export async function scoresOverTime(tag: string, amtPosts: number) {
     console.log(await count(tag))

@@ -1,3 +1,3 @@
-import { Cache } from "cache-tools/classes/Cache.ts"
+import { Cache } from "cache-tools/src/classes/Cache"
 
 export const General$: Cache<any> = new Cache("General$", Infinity)

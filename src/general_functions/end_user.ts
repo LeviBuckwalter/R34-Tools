@@ -1,7 +1,6 @@
-import { Post } from "../../classes/Post.js";
-// import { countWithCache } from "../outdated_scripts/tag_count_cache/Tag$_functions.ts";
-import { postsApiWithCache } from "../caches/post_caching/post_caching_functions.js";
-import { getCount } from "../caches/prompt_count_cache/PromptCount$_functions.js";
+import { Post } from "../classes/Post"
+import { postsApiWithCache } from "../caches/post_caching/post_caching_functions";
+import { getCount } from "../caches/prompt_count_cache/PromptCount$_functions";
 
 export async function getPosts(
     prompt: string,

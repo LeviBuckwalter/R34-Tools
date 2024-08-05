@@ -1,4 +1,4 @@
-import { FC } from "./the_fetch_conductor.js";
+import { FC } from "./the_fetch_conductor"
 
 export async function count(tag: string): Promise<number> {
     const url = `https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&name=${tag}`

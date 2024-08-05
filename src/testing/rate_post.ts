@@ -1,5 +1,5 @@
-import { Post } from "../classes/Post.js";
-import { getPosts, getRelativeProportion } from "../general_functions/end_user.js";
+import { Post } from "../classes/Post"
+import { getPosts, getRelativeProportion } from "../general_functions/end_user"
 
 function factorial(n: number): number {
     if (n%1 !== 0) {

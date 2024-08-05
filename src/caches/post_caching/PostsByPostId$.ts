@@ -1,5 +1,5 @@
-import { Post } from "../../classes/Post.js";
-import { Cache } from "cache-tools/classes/Cache.js"
+import { Post } from "../../classes/Post"
+import { Cache } from "cache-tools/src/classes/Cache"
 
 /*
 stores posts, indexed by postIds.
