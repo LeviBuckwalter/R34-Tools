@@ -13,5 +13,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "cache-tools": "file:../cache"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
   }
 }
