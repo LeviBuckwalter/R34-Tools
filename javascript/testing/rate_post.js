@@ -1,0 +1,74 @@
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ratePost = ratePost;
+const end_user_ts_1 = require("../general_functions/end_user.ts");
+function factorial(n) {
+    if (n % 1 !== 0) {
+        throw new Error("the factorial function was passed a non integer, which it's not made to handle.");
+    }
+    if (n < 0) {
+        throw new Error("the factorial function was passed a negative number, which it's not made to handle.");
+    }
+    let product = 1;
+    while (n > 1) {
+        product *= n;
+        n--;
+    }
+    return product;
+}
+function ratePost(postId, tagToRateBy, tupleSize) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const post = (yield (0, end_user_ts_1.getPosts)(`id:${postId}`, 1, {}))[0];
+        if (tupleSize > post.tags.size) {
+            throw new Error("the post doesn't have enough tags to make a tuple of that size");
+        }
+        const tags = [];
+        for (const tag of post.tags.values()) {
+            tags.push(tag);
+        }
+        const n = tags.length;
+        const k = tupleSize;
+        const nChooseK = factorial(n) / (factorial(k) * factorial(n - k)); //the amount of unique combinations of size k in a set of size n
+        //populate randomTuples:
+        const randomTuples = new Set();
+        while (randomTuples.size < nChooseK * 0.7) {
+            //make a new random tuple:
+            const newTuple = new Set();
+            while (newTuple.size < tupleSize) {
+                const randomIndex = Math.floor(Math.random() * tags.length);
+                const randomTag = tags[randomIndex];
+                newTuple.add(randomTag);
+            }
+            randomTuples.add(newTuple);
+        }
+        const prompts = [];
+        for (const tuple of randomTuples.values()) {
+            let prompt = "";
+            for (const tag of tuple.values()) {
+                prompt += " " + tag;
+            }
+            prompts.push(prompt);
+        }
+        const promises = [];
+        for (const prompt of prompts) {
+            promises.push((0, end_user_ts_1.getRelativeProportion)(tagToRateBy, prompt, {}));
+        }
+        let avgScore = 0;
+        let totalDataPoints = 0;
+        for (const promise of promises) {
+            avgScore += (yield promise).relativeProportion * (yield promise).datapoints;
+            totalDataPoints += (yield promise).datapoints;
+        }
+        avgScore /= totalDataPoints;
+        return avgScore;
+    });
+}

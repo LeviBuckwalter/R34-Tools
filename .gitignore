@@ -1,10 +1,1 @@
-deno.jsonc
-deno.lock
-General$.txt
-PostsByPostId$.txt
-PostIdsBySearch$.txt
-Tags$.txt
-testing
-outdated_scripts
-Percent$.txt
-Census$.txt
+node_modules
