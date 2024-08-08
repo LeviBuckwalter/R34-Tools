@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.normalizePrompt = normalizePrompt;
 exports.processRawPosts = processRawPosts;
-const Post_ts_1 = require("../classes/Post.ts");
-const globals_ts_1 = require("../globals.ts");
+const Post_1 = require("../classes/Post");
+const globals_1 = require("../globals");
 function normalizePrompt(prompt) {
     // Trim spaces from the beginning and end of the prompt
     prompt = prompt.trim();
@@ -14,7 +14,7 @@ function normalizePrompt(prompt) {
 function processRawPosts(rawPosts) {
     function isSafe(tag) {
         let safe = true;
-        for (const str of globals_ts_1.problemStrs) {
+        for (const str of globals_1.problemStrs) {
             if (tag.includes(str)) {
                 safe = false;
                 break;
@@ -30,7 +30,7 @@ function processRawPosts(rawPosts) {
         for (const tag of tags) {
             tagsSet.add(tag);
         }
-        processed.push(new Post_ts_1.Post(rawPost.id, tagsSet, rawPost.rating, rawPost.score, rawPost.comment_count, rawPost.preview_url.substring(38, rawPost.preview_url.length - 5)));
+        processed.push(new Post_1.Post(rawPost.id, tagsSet, rawPost.rating, rawPost.score, rawPost.comment_count, rawPost.preview_url.substring(38, rawPost.preview_url.length - 5)));
     }
     return processed;
 }

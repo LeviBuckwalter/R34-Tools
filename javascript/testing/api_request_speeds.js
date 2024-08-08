@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tagBank = void 0;
 exports.amtChainsTest = amtChainsTest;
 exports.batchSizeTest = batchSizeTest;
-const posts_ts_1 = require("../general_functions/API_access/posts.ts");
-const the_fetch_conductor_ts_1 = require("../general_functions/API_access/the_fetch_conductor.ts");
+const posts_1 = require("../general_functions/API_access/posts");
+const the_fetch_conductor_1 = require("../general_functions/API_access/the_fetch_conductor");
 exports.tagBank = [
     "headband",
     "light-skinned_male",
@@ -2063,12 +2063,12 @@ function amtChainsTest(amtChains, amtRequests, requestSize) {
         for (let n = 1; n <= amtChains; n++) {
             chains.push({ topLink: Promise.resolve(), links: 0 });
         }
-        the_fetch_conductor_ts_1.FC.chains = chains;
+        the_fetch_conductor_1.FC.chains = chains;
         const promises = [];
         for (let n = 1; n <= amtRequests; n++) {
             const randomIndex = Math.floor(Math.random() * exports.tagBank.length);
             const randomTag = exports.tagBank[randomIndex];
-            promises.push((0, posts_ts_1.postsApi)(randomTag, 0, requestSize));
+            promises.push((0, posts_1.postsApi)(randomTag, 0, requestSize));
         }
         let avgAmtTags = 0;
         for (let i = 0; i < promises.length; i++) {
@@ -2087,7 +2087,7 @@ function batchSizeTest(batches, batchSize) {
         for (let n = 1; n <= batches; n++) {
             const randomIndex = Math.floor(Math.random() * exports.tagBank.length);
             const randomTag = exports.tagBank[randomIndex];
-            promises.push((0, posts_ts_1.postsApi)(randomTag, 0, batchSize));
+            promises.push((0, posts_1.postsApi)(randomTag, 0, batchSize));
         }
         let avgAmtPosts = 0;
         for (const promise of promises) {

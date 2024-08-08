@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.General$ = void 0;
-const Cache_ts_1 = require("cache-tools/classes/Cache.ts");
-exports.General$ = new Cache_ts_1.Cache("General$", Infinity);
+const Cache_1 = require("cache-tools/src/classes/Cache");
+exports.General$ = new Cache_1.Cache("General$", Infinity);

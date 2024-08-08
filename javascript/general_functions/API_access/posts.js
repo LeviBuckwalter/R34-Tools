@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postsApi = postsApi;
-const utility_functions_ts_1 = require("../utility_functions.ts");
-const the_fetch_conductor_ts_1 = require("./the_fetch_conductor.ts");
+const utility_functions_1 = require("../utility_functions");
+const the_fetch_conductor_1 = require("./the_fetch_conductor");
 function postsApi(prompt, pid, limit) {
     return __awaiter(this, void 0, void 0, function* () {
         pid = (pid === undefined) ? 0 : pid;
@@ -20,10 +20,10 @@ function postsApi(prompt, pid, limit) {
         function myEgg() {
             return __awaiter(this, void 0, void 0, function* () {
                 const resp = yield fetch(url);
-                return (0, utility_functions_ts_1.processRawPosts)(yield resp.json());
+                return (0, utility_functions_1.processRawPosts)(yield resp.json());
             });
         }
-        const ret = yield the_fetch_conductor_ts_1.FC.ticket(myEgg);
+        const ret = yield the_fetch_conductor_1.FC.ticket(myEgg);
         return ret;
     });
 }

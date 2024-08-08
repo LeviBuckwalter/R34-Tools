@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.count = count;
-const the_fetch_conductor_ts_1 = require("./the_fetch_conductor.ts");
+const the_fetch_conductor_1 = require("./the_fetch_conductor");
 function count(tag) {
     return __awaiter(this, void 0, void 0, function* () {
         const url = `https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&name=${tag}`;
@@ -20,7 +20,7 @@ function count(tag) {
                 return yield resp.text();
             });
         }
-        let ret = yield the_fetch_conductor_ts_1.FC.ticket(myEgg);
+        let ret = yield the_fetch_conductor_1.FC.ticket(myEgg);
         ret = ret.match(/count="\d*/);
         if (ret === null) {
             return 0;

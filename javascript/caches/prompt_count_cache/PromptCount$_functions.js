@@ -10,14 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCount = getCount;
-const the_fetch_conductor_ts_1 = require("../../general_functions/API_access/the_fetch_conductor.ts");
-const PromptCount__ts_1 = require("./PromptCount$.ts");
+const the_fetch_conductor_1 = require("../../general_functions/API_access/the_fetch_conductor");
+const PromptCount_1 = require("./PromptCount$");
 function getCount(prompt, options) {
     return __awaiter(this, void 0, void 0, function* () {
         const { lookInCache = true, storeInCache = true } = options;
-        const key = PromptCount__ts_1.PromptCount$.makeKey(prompt);
+        const key = PromptCount_1.PromptCount$.makeKey(prompt);
         if (lookInCache) {
-            const pc$Ret = PromptCount__ts_1.PromptCount$.retrieve(key);
+            const pc$Ret = PromptCount_1.PromptCount$.retrieve(key);
             if (pc$Ret) {
                 return pc$Ret;
             }
@@ -29,7 +29,7 @@ function getCount(prompt, options) {
                 return yield resp.text();
             });
         }
-        const text = yield the_fetch_conductor_ts_1.FC.ticket(myEgg);
+        const text = yield the_fetch_conductor_1.FC.ticket(myEgg);
         const m = text.match(/<posts count="\d*/);
         let ret;
         if (m === null) {
@@ -39,7 +39,7 @@ function getCount(prompt, options) {
             ret = Number(m[0].replace(`<posts count="`, ""));
         }
         if (storeInCache) {
-            PromptCount__ts_1.PromptCount$.store(key, ret, 1000 * 60 * 60 * 24 * 7);
+            PromptCount_1.PromptCount$.store(key, ret, 1000 * 60 * 60 * 24 * 7);
         }
         return ret;
     });

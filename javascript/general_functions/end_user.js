@@ -12,16 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getPosts = getPosts;
 exports.getProportion = getProportion;
 exports.getRelativeProportion = getRelativeProportion;
-// import { countWithCache } from "../outdated_scripts/tag_count_cache/Tag$_functions.ts";
-const post_caching_functions_ts_1 = require("../caches/post_caching/post_caching_functions.ts");
-const PromptCount__functions_ts_1 = require("../caches/prompt_count_cache/PromptCount$_functions.ts");
+const post_caching_functions_1 = require("../caches/post_caching/post_caching_functions");
+const PromptCount__functions_1 = require("../caches/prompt_count_cache/PromptCount$_functions");
 function getPosts(prompt, amtPosts, options) {
     return __awaiter(this, void 0, void 0, function* () {
         const { lookInCache = true, storeInCache = true } = options;
         const pages = Math.ceil(amtPosts / 1000);
         const promises = [];
         for (let pid = 0; pid < pages; pid++) {
-            promises.push((0, post_caching_functions_ts_1.postsApiWithCache)(prompt, pid, { lookInCache, storeInCache }));
+            promises.push((0, post_caching_functions_1.postsApiWithCache)(prompt, pid, { lookInCache, storeInCache }));
         }
         const posts = [];
         for (const promise of promises) {
@@ -45,8 +44,8 @@ function getPosts(prompt, amtPosts, options) {
 function getProportion(promptSubgroup_1, promptBaseline_1) {
     return __awaiter(this, arguments, void 0, function* (promptSubgroup, promptBaseline, options = {}) {
         const { lookInCache = true, storeInCache = true } = options;
-        const countBl = (0, PromptCount__functions_ts_1.getCount)(promptBaseline, { lookInCache, storeInCache });
-        const countSg = (0, PromptCount__functions_ts_1.getCount)(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache });
+        const countBl = (0, PromptCount__functions_1.getCount)(promptBaseline, { lookInCache, storeInCache });
+        const countSg = (0, PromptCount__functions_1.getCount)(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache });
         return {
             proportion: (yield countSg) / (yield countBl),
             datapoints: yield countBl
@@ -56,10 +55,10 @@ function getProportion(promptSubgroup_1, promptBaseline_1) {
 function getRelativeProportion(promptSubgroup, promptBaseline, options) {
     return __awaiter(this, void 0, void 0, function* () {
         const { lookInCache = true, storeInCache = true } = options;
-        const countAll = (0, PromptCount__functions_ts_1.getCount)("", { lookInCache, storeInCache });
-        const countBl = (0, PromptCount__functions_ts_1.getCount)(promptBaseline, { lookInCache, storeInCache });
-        const countSgIndependant = (0, PromptCount__functions_ts_1.getCount)(promptSubgroup, { lookInCache, storeInCache });
-        const countSg = (0, PromptCount__functions_ts_1.getCount)(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache });
+        const countAll = (0, PromptCount__functions_1.getCount)("", { lookInCache, storeInCache });
+        const countBl = (0, PromptCount__functions_1.getCount)(promptBaseline, { lookInCache, storeInCache });
+        const countSgIndependant = (0, PromptCount__functions_1.getCount)(promptSubgroup, { lookInCache, storeInCache });
+        const countSg = (0, PromptCount__functions_1.getCount)(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache });
         return {
             relativeProportion: ((yield countSg) / (yield countBl)) / ((yield countSgIndependant) / (yield countAll)),
             datapoints: yield countSg
