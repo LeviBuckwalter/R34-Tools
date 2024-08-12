@@ -1,10 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.tsToId = tsToId;
-exports.idToTs = idToTs;
-exports.dateToId = dateToId;
-exports.idToDate = idToDate;
-exports.easyDate = easyDate;
 const dataPoints = [
     { timestamp: 1722071865, id: 10781124 },
     { timestamp: 1721021340, id: 10673422 },
@@ -47,7 +40,7 @@ const tsToIdMap = new Map();
 for (const dataPoint of dataPoints) {
     tsToIdMap.set(dataPoint.timestamp, dataPoint.id);
 }
-function tsToId(givenTs) {
+export function tsToId(givenTs) {
     let recenter = null;
     let older = null;
     for (const rawEntry of tsToIdMap.entries()) {
@@ -94,7 +87,7 @@ const idToTsMap = new Map();
 for (const dataPoint of dataPoints) {
     idToTsMap.set(dataPoint.id, dataPoint.timestamp);
 }
-function idToTs(givenId) {
+export function idToTs(givenId) {
     let recenter = null;
     let older = null;
     for (const rawEntry of idToTsMap.entries()) {
@@ -137,17 +130,17 @@ function idToTs(givenId) {
         return Math.round(givenTsRelOlderer + olderer.timestamp); //reincorporate olderer datapoint's timestamp
     }
 }
-function dateToId(date) {
+export function dateToId(date) {
     const milliseconds = date.getTime();
     const seconds = milliseconds / 1000;
     return tsToId(seconds);
 }
-function idToDate(id) {
+export function idToDate(id) {
     const seconds = idToTs(id);
     const milliseconds = seconds * 1000;
     return new Date(milliseconds);
 }
-function easyDate(month, day, year) {
+export function easyDate(month, day, year) {
     if (year < 100) {
         year += 2000;
     }

@@ -1,8 +1,8 @@
-import { Post } from "../../classes/Post"
-import { PostIdsBySearch$ } from "./PostIdsBySearch$"
-import { PostsByPostId$ } from "./PostsByPostId$"
-import { postsApi } from "../../general_functions/API_access/posts"
-import { General$ } from "../General$"
+import { Post } from "../../classes/Post.js"
+import { PostIdsBySearch$ } from "./PostIdsBySearch$.js"
+import { PostsByPostId$ } from "./PostsByPostId$.js"
+import { postsApi } from "../../functions/API_access/posts.js"
+import { General$ } from "../General$.js"
 
 
 export async function postsApiWithCache(

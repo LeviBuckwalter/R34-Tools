@@ -1,7 +1,5 @@
-import { postsApi } from "../general_functions/API_access/posts"
-import { FC } from "../general_functions/API_access/the_fetch_conductor"
-import { getPosts } from "../general_functions/end_user"
-import { easyDate, dateToId } from "../general_functions/id_timestamp_conversion"
+import { postsApi } from "../functions/API_access/posts.js"
+import { FC } from "../functions/API_access/the_fetch_conductor.js"
 
 export const tagBank: string[] = [
     "headband",

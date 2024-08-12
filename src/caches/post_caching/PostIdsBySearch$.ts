@@ -1,7 +1,7 @@
-import { Cache } from "cache-tools/src/classes/Cache"
-import { normalizePrompt } from "../../general_functions/utility_functions"
-import { General$ } from "../General$"
-import { PostsByPostId$ } from "./PostsByPostId$"
+import { Cache } from "../../../node_modules/cache-tools/src/classes/Cache.js"
+import { normalizePrompt } from "../../functions/general_functions/utility_functions.js"
+import { General$ } from "../General$.js"
+import { PostsByPostId$ } from "./PostsByPostId$.js"
 
 /*
 stores the results of specific searches. This cache doesn't store any actual posts, just postIds. If someone asks for the results of a given search, and this cache has an entry for it, but not every post has an entry in the PostsByPostIds cache, then this cache will delete its entry and return undefined.

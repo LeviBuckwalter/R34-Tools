@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,9 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ratePost = ratePost;
-const end_user_1 = require("../general_functions/end_user");
+import { getPosts, getRelativeProportion } from "../functions/general_functions/end_user.js";
 function factorial(n) {
     if (n % 1 !== 0) {
         throw new Error("the factorial function was passed a non integer, which it's not made to handle.");
@@ -25,9 +22,9 @@ function factorial(n) {
     }
     return product;
 }
-function ratePost(postId, tagToRateBy, tupleSize) {
+export function ratePost(postId, tagToRateBy, tupleSize) {
     return __awaiter(this, void 0, void 0, function* () {
-        const post = (yield (0, end_user_1.getPosts)(`id:${postId}`, 1, {}))[0];
+        const post = (yield getPosts(`id:${postId}`, 1, {}))[0];
         if (tupleSize > post.tags.size) {
             throw new Error("the post doesn't have enough tags to make a tuple of that size");
         }
@@ -60,7 +57,7 @@ function ratePost(postId, tagToRateBy, tupleSize) {
         }
         const promises = [];
         for (const prompt of prompts) {
-            promises.push((0, end_user_1.getRelativeProportion)(tagToRateBy, prompt, {}));
+            promises.push(getRelativeProportion(tagToRateBy, prompt, {}));
         }
         let avgScore = 0;
         let totalDataPoints = 0;

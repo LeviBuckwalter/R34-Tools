@@ -1,6 +1,6 @@
-import { Post } from "../../classes/Post"
-import { processRawPosts } from "../utility_functions";
-import { FC } from "./the_fetch_conductor"
+import { Post } from "../../classes/Post.js"
+import { processRawPosts } from "../general_functions/utility_functions.js";
+import { FC } from "./the_fetch_conductor.js"
 
 export async function postsApi(prompt: string, pid: number, limit?: number): Promise<Post[]> {
     pid = (pid === undefined) ? 0 : pid

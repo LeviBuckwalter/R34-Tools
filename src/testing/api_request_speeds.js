@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,13 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.tagBank = void 0;
-exports.amtChainsTest = amtChainsTest;
-exports.batchSizeTest = batchSizeTest;
-const posts_1 = require("../general_functions/API_access/posts");
-const the_fetch_conductor_1 = require("../general_functions/API_access/the_fetch_conductor");
-exports.tagBank = [
+import { postsApi } from "../functions/API_access/posts.js";
+import { FC } from "../functions/API_access/the_fetch_conductor.js";
+export const tagBank = [
     "headband",
     "light-skinned_male",
     "smellerbee",
@@ -2057,18 +2052,18 @@ exports.tagBank = [
     "tentabulge",
     "vaginal_sex",
 ];
-function amtChainsTest(amtChains, amtRequests, requestSize) {
+export function amtChainsTest(amtChains, amtRequests, requestSize) {
     return __awaiter(this, void 0, void 0, function* () {
         const chains = [];
         for (let n = 1; n <= amtChains; n++) {
             chains.push({ topLink: Promise.resolve(), links: 0 });
         }
-        the_fetch_conductor_1.FC.chains = chains;
+        FC.chains = chains;
         const promises = [];
         for (let n = 1; n <= amtRequests; n++) {
-            const randomIndex = Math.floor(Math.random() * exports.tagBank.length);
-            const randomTag = exports.tagBank[randomIndex];
-            promises.push((0, posts_1.postsApi)(randomTag, 0, requestSize));
+            const randomIndex = Math.floor(Math.random() * tagBank.length);
+            const randomTag = tagBank[randomIndex];
+            promises.push(postsApi(randomTag, 0, requestSize));
         }
         let avgAmtTags = 0;
         for (let i = 0; i < promises.length; i++) {
@@ -2081,13 +2076,13 @@ function amtChainsTest(amtChains, amtRequests, requestSize) {
         return avgAmtTags;
     });
 }
-function batchSizeTest(batches, batchSize) {
+export function batchSizeTest(batches, batchSize) {
     return __awaiter(this, void 0, void 0, function* () {
         const promises = [];
         for (let n = 1; n <= batches; n++) {
-            const randomIndex = Math.floor(Math.random() * exports.tagBank.length);
-            const randomTag = exports.tagBank[randomIndex];
-            promises.push((0, posts_1.postsApi)(randomTag, 0, batchSize));
+            const randomIndex = Math.floor(Math.random() * tagBank.length);
+            const randomTag = tagBank[randomIndex];
+            promises.push(postsApi(randomTag, 0, batchSize));
         }
         let avgAmtPosts = 0;
         for (const promise of promises) {

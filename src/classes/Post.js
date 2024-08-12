@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
-class Post {
+export class Post {
     constructor(id, tags, rating, score, commentCount, thumbnailId) {
         this.id = id;
         this.tags = tags;
@@ -20,7 +17,6 @@ class Post {
         return [this.id, this.tags, this.rating, this.score, this.commentCount, this.thumbnailId];
     }
 }
-exports.Post = Post;
 /*
 https://api-cdn.rule34.xxx/thumbnails/1876/thumbnail_81023c7833378e0dd98b5116cf27d097.jpg
 https://api-cdn.rule34.xxx/thumbnails/1876/thumbnail_0c0206f902e840c067adae5c20841092.jpg

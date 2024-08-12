@@ -1,9 +1,5 @@
-import { getPosts } from "../../general_functions/end_user"
-import { idToTs, tsToId } from "../../general_functions/id_timestamp_conversion"
-import { postsApi } from "../../general_functions/API_access/posts"
-import { FC } from "../../general_functions/API_access/the_fetch_conductor"
-import { normalizePrompt } from "../../general_functions/utility_functions"
-import { PromptCount$ } from "./PromptCount$"
+import { FC } from "../../functions/API_access/the_fetch_conductor.js"
+import { PromptCount$ } from "./PromptCount$.js"
 
 export async function getCount(
     prompt: string,

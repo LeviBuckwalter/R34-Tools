@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Census = void 0;
-class Census {
+export class Census {
     constructor(given) {
         if (Array.isArray(given)) {
             //assuming you're given an array of posts:
@@ -59,4 +56,3 @@ class Census {
         return { counts: this.counts, size: this.size };
     }
 }
-exports.Census = Census;

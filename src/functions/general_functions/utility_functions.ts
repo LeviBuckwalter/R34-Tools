@@ -1,5 +1,5 @@
-import { Post } from "../classes/Post";
-import { problemStrs } from "../globals";
+import { Post } from "../../classes/Post.js"
+import { problemStrs } from "../../globals.js";
 
 
 

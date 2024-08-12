@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,27 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.count = count;
-const the_fetch_conductor_1 = require("./the_fetch_conductor");
-function count(tag) {
+import { processRawPosts } from "../general_functions/utility_functions.js";
+import { FC } from "./the_fetch_conductor.js";
+export function postsApi(prompt, pid, limit) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = `https://api.rule34.xxx/index.php?page=dapi&s=tag&q=index&name=${tag}`;
+        pid = (pid === undefined) ? 0 : pid;
+        limit = (limit === undefined) ? 1000 : limit;
+        const url = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&tags=${prompt}&pid=${pid}&limit=${limit}&json=1`;
         function myEgg() {
             return __awaiter(this, void 0, void 0, function* () {
                 const resp = yield fetch(url);
-                return yield resp.text();
+                return processRawPosts(yield resp.json());
             });
         }
-        let ret = yield the_fetch_conductor_1.FC.ticket(myEgg);
-        ret = ret.match(/count="\d*/);
-        if (ret === null) {
-            return 0;
-        }
-        else {
-            ret = ret[0].replace(`count="`, "");
-            ret = Number(ret);
-            return ret;
-        }
+        const ret = yield FC.ticket(myEgg);
+        return ret;
     });
 }

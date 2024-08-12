@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,23 +7,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.postsApiWithCache = postsApiWithCache;
-exports.resetAnchor = resetAnchor;
-const PostIdsBySearch_1 = require("./PostIdsBySearch$");
-const PostsByPostId_1 = require("./PostsByPostId$");
-const posts_1 = require("../../general_functions/API_access/posts");
-const General_1 = require("../General$");
-function postsApiWithCache(prompt, pid, options) {
+import { PostIdsBySearch$ } from "./PostIdsBySearch$.js";
+import { PostsByPostId$ } from "./PostsByPostId$.js";
+import { postsApi } from "../../functions/API_access/posts.js";
+import { General$ } from "../General$.js";
+export function postsApiWithCache(prompt, pid, options) {
     return __awaiter(this, void 0, void 0, function* () {
         const { lookInCache = true, storeInCache = true } = options;
-        const search$Key = PostIdsBySearch_1.PostIdsBySearch$.makeKey(prompt, pid);
-        const search$Ret = PostIdsBySearch_1.PostIdsBySearch$.retrieve(search$Key);
+        const search$Key = PostIdsBySearch$.makeKey(prompt, pid);
+        const search$Ret = PostIdsBySearch$.retrieve(search$Key);
         if (lookInCache && search$Ret) {
             const posts = [];
             for (const postId of search$Ret) {
-                const post$Key = PostsByPostId_1.PostsByPostId$.makeKey(postId);
-                const post$Ret = PostsByPostId_1.PostsByPostId$.retrieve(post$Key);
+                const post$Key = PostsByPostId$.makeKey(postId);
+                const post$Ret = PostsByPostId$.retrieve(post$Key);
                 if (post$Ret) {
                     posts.push(post$Ret);
                 }
@@ -34,23 +30,23 @@ function postsApiWithCache(prompt, pid, options) {
             }
             return posts;
         } //else:
-        const posts = yield (0, posts_1.postsApi)(prompt, pid);
+        const posts = yield postsApi(prompt, pid);
         if (storeInCache) {
             const ids = [];
             for (const post of posts) {
                 ids.push(post.id);
-                const key = PostsByPostId_1.PostsByPostId$.makeKey(post.id);
-                PostsByPostId_1.PostsByPostId$.store(key, post);
+                const key = PostsByPostId$.makeKey(post.id);
+                PostsByPostId$.store(key, post);
             }
-            PostIdsBySearch_1.PostIdsBySearch$.store(search$Key, ids);
+            PostIdsBySearch$.store(search$Key, ids);
         }
         return posts;
     });
 }
-function resetAnchor() {
+export function resetAnchor() {
     return __awaiter(this, void 0, void 0, function* () {
-        General_1.General$.store("maxId", (yield (0, posts_1.postsApi)("", 0, 1))[0].id);
-        PostIdsBySearch_1.PostIdsBySearch$.clear();
-        PostsByPostId_1.PostsByPostId$.clear();
+        General$.store("maxId", (yield postsApi("", 0, 1))[0].id);
+        PostIdsBySearch$.clear();
+        PostsByPostId$.clear();
     });
 }
