@@ -10,18 +10,18 @@ export async function getPosts(
         storeInCache?: boolean
     }
 ): Promise<Post[]> {
-    const {lookInCache = true, storeInCache = true} = options
-    
+    const { lookInCache = true, storeInCache = true } = options
+
     const pages = Math.ceil(amtPosts / 1000)
     const promises: Promise<Post[]>[] = []
     for (let pid = 0; pid < pages; pid++) {
-        promises.push(postsApiWithCache(prompt, pid, {lookInCache, storeInCache}))
+        promises.push(postsApiWithCache(prompt, pid, { lookInCache, storeInCache }))
     }
     const posts: Post[] = []
     for (const promise of promises) {
         posts.push(...(await promise))
     }
-    
+
     return posts.slice(0, amtPosts)
 }
 
@@ -41,14 +41,14 @@ export async function getPosts(
 export async function getProportion(
     promptSubgroup: string,
     promptBaseline: string,
-    options: {lookInCache?: boolean, storeInCache?: boolean} = {}
-): Promise<{proportion: number, datapoints: number}> {
-    const {lookInCache = true, storeInCache = true} = options
+    options: { lookInCache?: boolean, storeInCache?: boolean } = {}
+): Promise<{ proportion: number, datapoints: number }> {
+    const { lookInCache = true, storeInCache = true } = options
 
-    const countBl = getCount(promptBaseline, {lookInCache, storeInCache})
-    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, {lookInCache, storeInCache})
+    const countBl = getCount(promptBaseline, { lookInCache, storeInCache })
+    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache })
     return {
-        proportion: (await countSg)/(await countBl),
+        proportion: (await countSg) / (await countBl),
         datapoints: await countBl
     }
 }
@@ -56,17 +56,17 @@ export async function getProportion(
 export async function getRelativeProportion(
     promptSubgroup: string,
     promptBaseline: string,
-    options: {lookInCache?: boolean, storeInCache?: boolean}
-): Promise<{relativeProportion: number, datapoints: number}> {
-    const {lookInCache = true, storeInCache = true} = options
+    options: { lookInCache?: boolean, storeInCache?: boolean }
+): Promise<{ relativeProportion: number, datapoints: number }> {
+    const { lookInCache = true, storeInCache = true } = options
 
-    const countAll = getCount("", {lookInCache, storeInCache})
-    const countBl = getCount(promptBaseline, {lookInCache, storeInCache})
-    const countSgIndependant = getCount(promptSubgroup, {lookInCache, storeInCache})
-    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, {lookInCache, storeInCache})
+    const countAll = getCount("", { lookInCache, storeInCache })
+    const countBl = getCount(promptBaseline, { lookInCache, storeInCache })
+    const countSgIndependant = getCount(promptSubgroup, { lookInCache, storeInCache })
+    const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache })
 
     return {
-        relativeProportion: ((await countSg)/(await countBl))/((await countSgIndependant)/(await countAll)),
-        datapoints: await countSg
+        relativeProportion: ((await countSg) / (await countBl)) / ((await countSgIndependant) / (await countAll)),
+        datapoints: await countBl
     }
 }

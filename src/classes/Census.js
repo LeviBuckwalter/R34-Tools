@@ -1,24 +1,17 @@
 export class Census {
     constructor(given) {
-        if (Array.isArray(given)) {
-            //assuming you're given an array of posts:
-            this.counts = new Map();
-            this.size = 0;
-            for (const post of given) {
-                this.size++;
-                for (const tag of post.tags.values()) {
-                    if (this.counts.has(tag)) {
-                        this.counts.set(tag, this.counts.get(tag) + 1);
-                    }
-                    else {
-                        this.counts.set(tag, 1);
-                    }
+        this.counts = new Map();
+        this.size = 0;
+        for (const post of given) {
+            this.size++;
+            for (const tag of post.tags.values()) {
+                if (this.counts.has(tag)) {
+                    this.counts.set(tag, this.counts.get(tag) + 1);
+                }
+                else {
+                    this.counts.set(tag, 1);
                 }
             }
-        }
-        else {
-            this.counts = given.counts;
-            this.size = given.size;
         }
     }
     count(tag) {
@@ -51,8 +44,5 @@ export class Census {
         else {
             return ret;
         }
-    }
-    toSeed() {
-        return { counts: this.counts, size: this.size };
     }
 }

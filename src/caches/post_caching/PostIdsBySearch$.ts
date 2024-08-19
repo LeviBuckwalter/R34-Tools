@@ -11,17 +11,17 @@ This cache's size is unlimited, because I'm assuming the PostsByPostIds cache wi
 
 type postId = number
 export const PostIdsBySearch$: Cache<postId[]> = new Cache("PostIdsBySearch$", Infinity)
-PostIdsBySearch$.makeKey = function(prompt: string, pid: number): string {
-    const Gen$Ret = General$.retrieve("maxId")
-    if (!Gen$Ret) {
-        throw new Error(`maxId is undefined. You probably need to reset the anchor`)
-    }
+PostIdsBySearch$.makeKey = function (prompt: string, pid: number): string {
+    // const Gen$Ret = General$.retrieve("maxId")
+    // if (!Gen$Ret) {
+    //     throw new Error(`maxId is undefined. You probably need to reset the anchor`)
+    // }
     let key = normalizePrompt(prompt)
-    key = `id:<${Gen$Ret} ${prompt}`
+    // key = `id:<${Gen$Ret} ${prompt}`
     key = `${prompt.replace(" ", "-")}_${pid}`
     return key
 }
-PostIdsBySearch$.retrieve = function(key: string): number[] | undefined {
+PostIdsBySearch$.retrieve = function (key: string): number[] | undefined {
     const originalRetrieve: (key: string) => number[] | undefined = Cache.prototype.retrieve.bind(this)
     const originalRet = originalRetrieve(key)
     if (originalRet) {

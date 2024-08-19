@@ -13,8 +13,15 @@ export async function postsApiWithCache(
         storeInCache?: boolean
     }
 ): Promise<Post[]> {
-    const {lookInCache = true, storeInCache = true} = options
-    
+    const { lookInCache = true, storeInCache = true } = options
+    if (lookInCache || storeInCache) {
+        const maxId = General$.retrieve("maxId")
+        if (!maxId) {
+            throw new Error(`maxId is undefined. You probably need to reset the anchor.`)
+        }
+        prompt = `${prompt} id:<${maxId}`
+    }
+
     const search$Key = PostIdsBySearch$.makeKey(prompt, pid)
     const search$Ret = PostIdsBySearch$.retrieve(search$Key)
 
@@ -32,7 +39,7 @@ export async function postsApiWithCache(
         return posts
     }//else:
     const posts = await postsApi(prompt, pid)
-    
+
     if (storeInCache) {
         const ids: number[] = []
         for (const post of posts) {
@@ -42,7 +49,7 @@ export async function postsApiWithCache(
         }
         PostIdsBySearch$.store(search$Key, ids)
     }
-    
+
     return posts
 }
 

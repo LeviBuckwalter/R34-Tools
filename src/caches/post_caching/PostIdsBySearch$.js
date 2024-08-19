@@ -1,15 +1,14 @@
 import { Cache } from "../../../node_modules/cache-tools/src/classes/Cache.js";
 import { normalizePrompt } from "../../functions/general_functions/utility_functions.js";
-import { General$ } from "../General$.js";
 import { PostsByPostId$ } from "./PostsByPostId$.js";
 export const PostIdsBySearch$ = new Cache("PostIdsBySearch$", Infinity);
 PostIdsBySearch$.makeKey = function (prompt, pid) {
-    const Gen$Ret = General$.retrieve("maxId");
-    if (!Gen$Ret) {
-        throw new Error(`maxId is undefined. You probably need to reset the anchor`);
-    }
+    // const Gen$Ret = General$.retrieve("maxId")
+    // if (!Gen$Ret) {
+    //     throw new Error(`maxId is undefined. You probably need to reset the anchor`)
+    // }
     let key = normalizePrompt(prompt);
-    key = `id:<${Gen$Ret} ${prompt}`;
+    // key = `id:<${Gen$Ret} ${prompt}`
     key = `${prompt.replace(" ", "-")}_${pid}`;
     return key;
 };

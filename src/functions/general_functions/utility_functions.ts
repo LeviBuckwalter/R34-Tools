@@ -49,7 +49,7 @@ export function processRawPosts(rawPosts: rawPost[]): Post[] {
             rawPost.rating,
             rawPost.score,
             rawPost.comment_count,
-            rawPost.preview_url.substring(38, rawPost.preview_url.length-5)
+            rawPost.preview_url.substring(38, rawPost.preview_url.length-4)
         ))
     }
     return processed

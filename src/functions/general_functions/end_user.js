@@ -56,7 +56,7 @@ export function getRelativeProportion(promptSubgroup, promptBaseline, options) {
         const countSg = getCount(`${promptBaseline} ${promptSubgroup}`, { lookInCache, storeInCache });
         return {
             relativeProportion: ((yield countSg) / (yield countBl)) / ((yield countSgIndependant) / (yield countAll)),
-            datapoints: yield countSg
+            datapoints: yield countBl
         };
     });
 }

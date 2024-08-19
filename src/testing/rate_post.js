@@ -22,7 +22,7 @@ function factorial(n) {
     }
     return product;
 }
-export function ratePost(postId, tagToRateBy, tupleSize) {
+export function ratePost(postId, tagToRateBy, tupleSize, amtTuples) {
     return __awaiter(this, void 0, void 0, function* () {
         const post = (yield getPosts(`id:${postId}`, 1, {}))[0];
         if (tupleSize > post.tags.size) {
@@ -37,7 +37,7 @@ export function ratePost(postId, tagToRateBy, tupleSize) {
         const nChooseK = factorial(n) / (factorial(k) * factorial(n - k)); //the amount of unique combinations of size k in a set of size n
         //populate randomTuples:
         const randomTuples = new Set();
-        while (randomTuples.size < nChooseK * 0.7) {
+        while (randomTuples.size < Math.min(nChooseK * 0.7, amtTuples)) {
             //make a new random tuple:
             const newTuple = new Set();
             while (newTuple.size < tupleSize) {
@@ -47,6 +47,7 @@ export function ratePost(postId, tagToRateBy, tupleSize) {
             }
             randomTuples.add(newTuple);
         }
+        //make prompts from tuples:
         const prompts = [];
         for (const tuple of randomTuples.values()) {
             let prompt = "";
@@ -55,13 +56,17 @@ export function ratePost(postId, tagToRateBy, tupleSize) {
             }
             prompts.push(prompt);
         }
+        //search prompts:
         const promises = [];
         for (const prompt of prompts) {
             promises.push(getRelativeProportion(tagToRateBy, prompt, {}));
         }
         let avgScore = 0;
         let totalDataPoints = 0;
-        for (const promise of promises) {
+        for (let i = 0; i < promises.length; i++) {
+            const promise = promises[i];
+            const prompt = prompts[i];
+            console.log(`prompt: "${prompt}", relative proportion: ${(yield promise).relativeProportion}, datapoints: ${(yield promise).datapoints}`);
             avgScore += (yield promise).relativeProportion * (yield promise).datapoints;
             totalDataPoints += (yield promise).datapoints;
         }

@@ -14,6 +14,13 @@ import { General$ } from "../General$.js";
 export function postsApiWithCache(prompt, pid, options) {
     return __awaiter(this, void 0, void 0, function* () {
         const { lookInCache = true, storeInCache = true } = options;
+        if (lookInCache || storeInCache) {
+            const maxId = General$.retrieve("maxId");
+            if (!maxId) {
+                throw new Error(`maxId is undefined. You probably need to reset the anchor.`);
+            }
+            prompt = `${prompt} id:<${maxId}`;
+        }
         const search$Key = PostIdsBySearch$.makeKey(prompt, pid);
         const search$Ret = PostIdsBySearch$.retrieve(search$Key);
         if (lookInCache && search$Ret) {
