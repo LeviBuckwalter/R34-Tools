@@ -11,9 +11,7 @@
   ],
   "author": "Levi Buckwalter",
   "license": "UNLICENSED",
-  "dependencies": {
-    "cache-tools": "file:../cache"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.5.4"
   }

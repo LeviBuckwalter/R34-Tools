@@ -1,4 +1,4 @@
-import { Cache } from "../../../node_modules/cache-tools/src/classes/Cache.js";
+import { Cache } from "../../../Cache/src/classes/Cache.js";
 import { normalizePrompt } from "../../functions/general_functions/utility_functions.js";
 import { PostsByPostId$ } from "./PostsByPostId$.js";
 export const PostIdsBySearch$ = new Cache("PostIdsBySearch$", Infinity);
